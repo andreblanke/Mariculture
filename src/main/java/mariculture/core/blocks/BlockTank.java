@@ -21,6 +21,7 @@ import mariculture.core.tile.TileTankTitanium;
 import mariculture.core.tile.TileVoidBottle;
 import mariculture.factory.tile.TileDictionaryFluid;
 import mariculture.factory.tile.TileGasTank;
+import mariculture.fishery.Fishery;
 import mariculture.fishery.tile.TileFishTank;
 import mariculture.fishery.tile.TileHatchery;
 import mariculture.lib.helpers.ItemHelper;
@@ -135,7 +136,7 @@ public class BlockTank extends BlockConnected {
 
         if (tile instanceof TileHatchery) {
             TileHatchery hatchery = (TileHatchery) tile;
-            hatchery.updateSurrounding(); //Update info when stuff is 
+            hatchery.updateSurrounding(); //Update info when stuff is
 
             if (hatchery.getStackInSlot(0) != null && player.isSneaking()) {
                 if (!world.isRemote) {
@@ -144,7 +145,7 @@ public class BlockTank extends BlockConnected {
 
                 ItemHelper.addToPlayerInventory(player, world, x, y + 1, z, hatchery.getStackInSlot(0));
                 hatchery.setInventorySlotContents(0, null);
-            } else if (player.getCurrentEquippedItem() != null && hatchery.getStackInSlot(0) == null) {
+            } else if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == Fishery.fishEggs && hatchery.getStackInSlot(0) == null) {
                 ItemStack stack = player.getCurrentEquippedItem().copy();
                 stack.stackSize = 1;
                 hatchery.setInventorySlotContents(0, stack);
@@ -175,7 +176,7 @@ public class BlockTank extends BlockConnected {
         TileEntity tile = world.getTileEntity(x, y, z);
         if (tile instanceof TileHatchery) {
             TileHatchery hatchery = (TileHatchery) tile;
-            hatchery.updateSurrounding(); //Update info when stuff is 
+            hatchery.updateSurrounding(); //Update info when stuff is
         }
     }
 
