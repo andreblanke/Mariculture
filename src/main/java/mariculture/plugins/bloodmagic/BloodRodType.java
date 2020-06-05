@@ -20,7 +20,6 @@ public class BloodRodType extends RodType {
     @Override
     public boolean caughtAlive(String species) {
         if (species.equals(Fish.angler.getSpecies())) return true;
-        if (species.equals(Fish.stickleback.getSpecies())) return true;
         if (species.equals(Fish.manOWar.getSpecies())) return true;
         if (species.equals(Fish.tuna.getSpecies())) return true;
         if (species.equals(Fish.salmon.getSpecies())) return true;

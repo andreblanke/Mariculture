@@ -56,7 +56,6 @@ import mariculture.fishery.fish.FishNight;
 import mariculture.fishery.fish.FishOsmium;
 import mariculture.fishery.fish.FishPerch;
 import mariculture.fishery.fish.FishPickerel;
-import mariculture.fishery.fish.FishPike;
 import mariculture.fishery.fish.FishPiranha;
 import mariculture.fishery.fish.FishPlatinum;
 import mariculture.fishery.fish.FishPuffer;
@@ -69,7 +68,6 @@ import mariculture.fishery.fish.FishSilver;
 import mariculture.fishery.fish.FishSpider;
 import mariculture.fishery.fish.FishSquid;
 import mariculture.fishery.fish.FishStargazer;
-import mariculture.fishery.fish.FishStickleback;
 import mariculture.fishery.fish.FishStingRay;
 import mariculture.fishery.fish.FishTang;
 import mariculture.fishery.fish.FishTetra;
@@ -77,7 +75,6 @@ import mariculture.fishery.fish.FishTin;
 import mariculture.fishery.fish.FishTrout;
 import mariculture.fishery.fish.FishTuna;
 import mariculture.fishery.fish.FishUndead;
-import mariculture.fishery.fish.FishWalleye;
 import mariculture.fishery.fish.FishZinc;
 import mariculture.fishery.fish.dna.FishDNAAreaOfEffect;
 import mariculture.fishery.fish.dna.FishDNAFertility;
@@ -125,13 +122,13 @@ public class Fish {
     public static FishSpecies salmon; //Shed leather
     public static FishSpecies bass; //Causes explosions
     public static FishSpecies tetra; //Neon lamps
-    public static FishSpecies catfish; //Spawns ocelot 
+    public static FishSpecies catfish; //Spawns ocelot
     public static FishSpecies piranha; //Atacks Entities and players
     public static FishSpecies cod; //Leather (When melted)
     public static FishSpecies perch; //Spawns bats
     public static FishSpecies tuna; //Add Speed Potion
     public static FishSpecies stingRay; //Poisons those in water
-    public static FishSpecies mantaRay; //Regen 2 when eaten, and Heals you when in water 
+    public static FishSpecies mantaRay; //Regen 2 when eaten, and Heals you when in water
     public static FishSpecies electricRay; //Produce 10RF/t per connection lots of power
     public static FishSpecies damsel; //Breeds animals
     public static FishSpecies angel; //Teleport stuff in to inventories
@@ -165,9 +162,6 @@ public class Fish {
     public static FishSpecies chub; //Fills Hunger Bar
     public static FishSpecies bowfin; //Generates Arrows
     public static FishSpecies lung; //Applies Water Breathing, Gives it when eaten
-    public static FishSpecies walleye; //Eyesight, Zooms in like bow /TODO:
-    public static FishSpecies pike; //Generates flint
-    public static FishSpecies stickleback; //Grows Kelp /TODO:
     public static FishSpecies pickerel; //Harvests Crops /TODO:
 
     //1.2.5 Metal Species
@@ -319,9 +313,6 @@ public class Fish {
         chub = Fishing.fishHelper.registerFish(modid, FishChub.class, 43);
         bowfin = Fishing.fishHelper.registerFish(modid, FishBowfin.class, 44);
         lung = Fishing.fishHelper.registerFish(modid, FishLungfish.class, 45);
-        walleye = Fishing.fishHelper.registerFish(modid, FishWalleye.class, 46);
-        pike = Fishing.fishHelper.registerFish(modid, FishPike.class, 47);
-        stickleback = Fishing.fishHelper.registerFish(modid, FishStickleback.class, 48);
         pickerel = Fishing.fishHelper.registerFish(modid, FishPickerel.class, 49);
 
         //Metal species
@@ -358,7 +349,6 @@ public class Fish {
     }
 
     public static void addOptionalFish() {
-        silver = registerFish("silver", magnesium, stickleback, 15D, FishSilver.class, 56);
         lead = registerFish("lead", magnesium, angler, 15D, FishLead.class, 57);
         tin = registerFish("tin", brown, puffer, 15D, FishTin.class, 58);
         platinum = registerFish("platinum", gold, iron, 10D, FishPlatinum.class, 59);
@@ -371,16 +361,11 @@ public class Fish {
 
     private static void addMutations() {
         Fishing.mutation.addMutation(nether, tetra, angler, 25D);
-        Fishing.mutation.addMutation(night, walleye, stickleback, 25D);
         Fishing.mutation.addMutation(stingRay, squid, manOWar, 30D);
         Fishing.mutation.addMutation(cod, blaasop, tuna, 30D);
         Fishing.mutation.addMutation(minnow, goldfish, salmon, 35D);
-        Fishing.mutation.addMutation(angler, manOWar, pike, 20D);
-        Fishing.mutation.addMutation(stickleback, manOWar, bowfin, 20D);
         Fishing.mutation.addMutation(manOWar, tuna, puffer, 20D);
         Fishing.mutation.addMutation(salmon, tuna, lung, 22D);
-        Fishing.mutation.addMutation(pike, stingRay, mantaRay, 18D);
-        Fishing.mutation.addMutation(pike, bowfin, piranha, 18D);
         Fishing.mutation.addMutation(puffer, nether, red, 17.5D);
         Fishing.mutation.addMutation(puffer, cod, brown, 17.5D);
         Fishing.mutation.addMutation(puffer, lung, chub, 19D);
@@ -413,10 +398,8 @@ public class Fish {
 
         if (FishMechanics.ENABLE_METAL_FISH) {
             Fishing.mutation.addMutation(brown, bowfin, copper, 15D, new RequirementHasTag("blockCopper"));
-            Fishing.mutation.addMutation(brown, pike, iron, 15D, new RequirementHasTag("blockIron"));
             Fishing.mutation.addMutation(red, lung, magnesium, 15D, new RequirementHasTag("blockMagnesium"));
             Fishing.mutation.addMutation(iron, copper, aluminum, 15D, new RequirementHasTag("blockAluminum"));
-            Fishing.mutation.addMutation(aluminum, walleye, gold, 12D, new RequirementHasTag("blockGold"));
             Fishing.mutation.addMutation(gold, magnesium, rutile, 10D, new RequirementHasTag("blockRutile"));
             MinecraftForge.EVENT_BUS.register(new MetalFishEventHandler());
         }
