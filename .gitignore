@@ -8,7 +8,6 @@
 /common
 /eclipse/*
 /.gradle
-/.idea/
 /bin/*
 .classpath
 .project
@@ -17,3 +16,8 @@ src/api/resources/*
 src/api/java/hacker/
 .checkstyle
 /bin/
+
+/.idea/
+/Mariculture.iml
+/Mariculture.ipr
+/Mariculture.iws
