@@ -77,14 +77,11 @@ public class BlockTank extends BlockConnected {
             case TankMeta.TANK_ALUMINUM:
                 return 0.75F;
             case TankMeta.TANK_TITANIUM:
-                return 1.5F;
-            case TankMeta.TANK_GAS:
-                return 3F;
-            case TankMeta.FISH:
-                return 1.0F;
             case TankMeta.DIC:
             case TankMeta.HATCHERY:
                 return 1.5F;
+            case TankMeta.TANK_GAS:
+                return 3F;
             default:
                 return 1.0F;
         }
@@ -309,7 +306,7 @@ public class BlockTank extends BlockConnected {
         if (tile instanceof TileTankBlock && !player.capabilities.isCreativeMode) {
             ItemStack drop = new ItemStack(Core.tanks, 1, world.getBlockMetadata(x, y, z));
             TileTankBlock tank = (TileTankBlock) tile;
-            if (tank != null && tank.getFluid() != null) {
+            if (tank.getFluid() != null) {
                 if (!drop.hasTagCompound()) {
                     drop.setTagCompound(new NBTTagCompound());
                 }
@@ -324,23 +321,39 @@ public class BlockTank extends BlockConnected {
             if (!drop.hasTagCompound()) {
                 drop.setTagCompound(new NBTTagCompound());
             }
-
             TileFishTank tank = (TileFishTank) tile;
-            NBTTagList itemList = new NBTTagList();
-            for (int i = 0; i < tank.getInventory().length; i++) {
-                ItemStack stack = tank.getInventory()[i];
-                if (stack != null) {
-                    NBTTagCompound tag = new NBTTagCompound();
-                    tag.setByte("Slot", (byte) i);
-                    NBTHelper.writeItemStackToNBT(tag, stack);
-                    itemList.appendTag(tag);
-                }
-            }
 
-            drop.getTagCompound().setTag("Inventory", itemList);
+            drop.getTagCompound().setTag("Inventory", getInventoryContentsNBT(tank.getInventory()));
             ItemHelper.spawnItem(world, x, y, z, drop);
             return world.setBlockToAir(x, y, z);
-        } else return world.setBlockToAir(x, y, z);
+        }
+
+        if (tile instanceof TileHatchery && !player.capabilities.isCreativeMode) {
+            final TileHatchery hatchery = (TileHatchery) tile;
+
+            final ItemStack[] inventory = hatchery.getInventory();
+            for (ItemStack content : inventory) {
+                if (content != null)
+                    ItemHelper.spawnItem(world, x, y, z, content);
+            }
+        }
+        return world.setBlockToAir(x, y, z);
+    }
+
+    private NBTTagList getInventoryContentsNBT(final ItemStack[] inventory) {
+        final NBTTagList inventoryContents = new NBTTagList();
+        for (int i = 0; i < inventory.length; ++i) {
+            final ItemStack stack = inventory[i];
+            if (stack == null)
+                continue;
+
+            final NBTTagCompound inventorySlot = new NBTTagCompound();
+            inventorySlot.setByte("Slot", (byte) i);
+
+            NBTHelper.writeItemStackToNBT(inventorySlot, stack);
+            inventoryContents.appendTag(inventorySlot);
+        }
+        return inventoryContents;
     }
 
     @Override
@@ -399,12 +412,11 @@ public class BlockTank extends BlockConnected {
     public boolean isActive(int meta) {
         switch (meta) {
             case TankMeta.BOTTLE:
+            case TankMeta.DIC:
                 return false;
             case TankMeta.FISH:
             case TankMeta.HATCHERY:
                 return Modules.isActive(Modules.fishery);
-            case TankMeta.DIC:
-                return false;
             default:
                 return true;
         }
