@@ -8,6 +8,7 @@
 /common
 /eclipse/*
 /.gradle
+/.idea/
 /bin/*
 .classpath
 .project
