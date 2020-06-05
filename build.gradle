@@ -17,13 +17,12 @@ buildscript {
 
 apply plugin: 'forge'
 
-ext.buildnumber=""
-if (System.getenv().BUILD_NUMBER) {
-    ext.buildnumber="-" + System.getenv().BUILD_NUMBER
-}
+ext.buildnumber = ""
+if (System.getenv().BUILD_NUMBER)
+    ext.buildnumber = "-" + System.getenv().BUILD_NUMBER
 
 version = "${minecraft_version}-${mod_version}${buildnumber}"
-group= "uk.joshiejack.mariculture" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "uk.joshiejack.mariculture"
 archivesBaseName = "Mariculture-Deluxe"
 
 minecraft {
@@ -32,10 +31,6 @@ minecraft {
 }
 
 repositories {
-    ivy {
-        name "CoFHCore"
-        artifactPattern 'http://addons-origin.cursecdn.com/files/2229/536/[module]-[revision].[ext]'
-    }
     maven {
         name = "chickenbones"
         url = "http://chickenbones.net/maven/"
@@ -85,16 +80,16 @@ task marinotechJar(type: Jar) {
         attributes 'FMLCorePlugin': 'mariculture.fishery.VanillaOverride'
         attributes 'FMLCorePluginContainsFMLMod': 'true'
     }
-    
+
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
-    
+
     from('etc/mariculture') {
         include '**/*.txt'
         include '**/*.info'
         expand 'version': project.version, 'mcversion': project.minecraft.version
     }
-    
+
     from zipTree(jar.archivePath).matching {
         exclude 'maritech/**', 'assets/maritech/**'
     }
