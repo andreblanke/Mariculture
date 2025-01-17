@@ -70,9 +70,8 @@ public class WorldGenHandler implements IWorldGenerator {
             for (int j = 0; j < WorldGen.OYSTER_PER_CHUNK; j++) {
                 int chance = WorldGen.OYSTER_CHANCE;
                 if (random.nextInt(Math.max(1, chance)) == 0) {
-                    int randMeta = random.nextInt(4);
-                    int randX = x - 8 + random.nextInt(4);
-                    int randZ = z - 8 + random.nextInt(4);
+                    int randX = x + 8 + random.nextInt(4);
+                    int randZ = z + 8 + random.nextInt(4);
                     int blockY = world.getTopSolidOrLiquidBlock(randX, randZ);
                     if (MaricultureHandlers.environment.getSalinity(world, randX, randZ) == Salinity.SALINE) if (Core.water.canBlockStay(world, randX, blockY, randZ)) if (BlockHelper.isWater(world, randX, blockY + 1, randZ)) {
                         world.setBlock(randX, blockY, randZ, Core.water);
