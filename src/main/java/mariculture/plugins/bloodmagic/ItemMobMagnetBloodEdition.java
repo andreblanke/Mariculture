@@ -8,7 +8,6 @@ import mariculture.magic.ItemMobMagnet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -46,7 +45,7 @@ public class ItemMobMagnetBloodEdition extends ItemMobMagnet {
             SoulNetworkHandler.checkAndSetItemOwner(stack, player);
             boolean teleported = false;
             Entity entity = EntityList.createEntityByName(stack.stackTagCompound.getString("MobName"), world);
-            List<EntityMob> enemies = world.getEntitiesWithinAABB(entity.getClass(), player.boundingBox.expand(32D, 32D, 32D));
+            List<? extends Entity> enemies = world.getEntitiesWithinAABB(entity.getClass(), player.boundingBox.expand(32D, 32D, 32D));
             int x = (int) player.posX;
             int y = (int) (player.posY + 1);
             int z = (int) player.posZ;

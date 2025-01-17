@@ -103,9 +103,9 @@ public class EntityHelper {
     /** Gets the player from the uuid **/
     public static EntityPlayerMP getPlayerFromUUID(UUID uuid) {
         //Loops through every single player
-        for (EntityPlayer player : (List<EntityPlayer>) FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().playerEntityList) {
+        for (EntityPlayerMP player : FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().playerEntityList) {
             if (player.getPersistentID().equals(uuid)) {
-                return (EntityPlayerMP) player;
+                return player;
             }
         }
     
