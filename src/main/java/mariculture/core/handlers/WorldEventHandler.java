@@ -18,7 +18,6 @@ import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.event.terraingen.ChunkProviderEvent.ReplaceBiomeBlocks;
-import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.EventPriority;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
@@ -45,7 +44,7 @@ public class WorldEventHandler {
             return;
 
         if (noiseGenerator == null) noiseGenerator = new NoiseGeneratorPerlin(event.world.rand, 4);
-        noiseValue = noiseGenerator.func_151599_a(noiseValue, (double) (event.chunkX * 16), (double) (event.chunkZ * 16), 16, 16, 0.03125D * 2.0D, 0.03125D * 2.0D, 1.0D);
+        noiseValue = noiseGenerator.func_151599_a(noiseValue, event.chunkX * 16, event.chunkZ * 16, 16, 16, 0.03125D * 2.0D, 0.03125D * 2.0D, 1.0D);
 
         for (int k = 0; k < 16; ++k) {
             for (int l = 0; l < 16; ++l) {
@@ -67,11 +66,10 @@ public class WorldEventHandler {
         genBiomeTerrain(event.world, event.world.rand, event.blockArray, event.metaArray, event.chunkX * 16 + k, event.chunkZ * 16 + l, noiseValue[l + k * 16], biome, depth);
     }
 
-    public static final void genBiomeTerrain(World world, Random rand, Block[] blocksArray, byte[] metaArray, int x, int z, double noise, BiomeGenBase biome, double depth) {
+    private static void genBiomeTerrain(World world, Random rand, Block[] blocksArray, byte[] metaArray, int x, int z, double noise, BiomeGenBase biome, double depth) {
         Block seabed = WorldGen.LIMESTONE_FLOOR ? Core.limestone : Blocks.sandstone;
         Block topBlock = biome.topBlock;
         Block fillerBlock = biome.fillerBlock;
-        boolean flag = true;
         Block block = topBlock;
         byte b0 = 0;
         Block block1 = fillerBlock;
@@ -84,7 +82,7 @@ public class WorldEventHandler {
         for (int l1 = 255; l1 >= 0; --l1) {
             int i2 = (i1 * 16 + j1) * k1 + l1;
 
-            if (l1 <= 0 + rand.nextInt(5)) {
+            if (l1 <= rand.nextInt(5)) {
                 blocksArray[i2] = Blocks.bedrock;
             } else {
                 Block block2 = blocksArray[i2];
@@ -94,21 +92,17 @@ public class WorldEventHandler {
                         if (k == -1) {
                             if (l <= 0) {
                                 block = null;
-                                b0 = 0;
                                 block1 = Blocks.stone;
                             } else if (l1 >= 59 && l1 <= 64) {
                                 block = topBlock;
-                                b0 = (byte) 0;
                                 block1 = fillerBlock;
                             }
 
                             if (l1 < 63 && (block == null || block.getMaterial() == Material.air)) {
                                 if (biome.getFloatTemperature(x, l1, z) < 0.15F) {
                                     block = Blocks.ice;
-                                    b0 = 0;
                                 } else {
                                     block = Blocks.water;
-                                    b0 = 0;
                                 }
                             }
 
