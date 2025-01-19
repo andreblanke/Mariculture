@@ -82,7 +82,7 @@ public class WorldEventHandler {
         int k1 = blocksArray.length / 256;
 
         for (int l1 = 255; l1 >= 0; --l1) {
-            int i2 = (j1 * 16 + i1) * k1 + l1;
+            int i2 = (i1 * 16 + j1) * k1 + l1;
 
             if (l1 <= 0 + rand.nextInt(5)) {
                 blocksArray[i2] = Blocks.bedrock;
